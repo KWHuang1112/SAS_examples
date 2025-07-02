@@ -1,0 +1,308 @@
+title 'ch9 q1';
+data cod;
+
+input row $ col $ treat $ obs @@;
+cards;
+1 1 b 5.5 2 1 a 2.1 3 1 c 6.6 4 1 c 8.1 5 1 b 6.4 6 1 a 2.9 1 2 c 3.6
+2 2 b 6.0 3 2 a 1.8 4 2 a 3.9 5 2 c 7.5 6 2 b 3.2 1 3 a 2.3 2 3 c 4.2
+3 3 b 4.8 4 3 b 5.0 5 3 a 5.4 6 3 c 6.8;
+proc glm;
+class row col treat;
+model obs=row col treat;
+means treat/lsd;
+means treat/duncan;
+
+                                               ch9 q1              21:44 Wednesday, May 12, 2009   1
+
+                                         The GLM Procedure
+                                      Class Level Information
+                                Class         Levels    Values
+                                row                6    1 2 3 4 5 6
+                                col                3    1 2 3
+                                treat              3    a b c
+                                    Number of observations    18
+                                               ch9 q1              21:44 Wednesday, May 12, 2009   2
+                                         The GLM Procedure
+Dependent Variable: obs
+                                                Sum of
+        Source                      DF         Squares     Mean Square    F Value    Pr > F
+        Model                        9     47.99833333      5.33314815       3.13    0.0613
+        Error                        8     13.62666667      1.70333333
+        Corrected Total             17     61.62500000
+                         R-Square     Coeff Var      Root MSE      obs Mean
+                         0.778878      27.28470      1.305118      4.783333
+        Source                      DF       Type I SS     Mean Square    F Value    Pr > F
+        row                          5     15.95166667      3.19033333       1.87    0.2050
+        col                          2      2.62333333      1.31166667       0.77    0.4945
+        treat                        2     29.42333333     14.71166667       8.64    0.0100
+        Source                      DF     Type III SS     Mean Square    F Value    Pr > F
+        row                          5     15.95166667      3.19033333       1.87    0.2050
+        col                          2      2.62333333      1.31166667       0.77    0.4945
+        treat                        2     29.42333333     14.71166667       8.64    0.0100
+                                               ch9 q1              21:44 Wednesday, May 12, 2009   3
+                                         The GLM Procedure
+                                       t Tests (LSD) for obs
+ NOTE: This test controls the Type I comparisonwise error rate, not the experimentwise error rate.
+                               Alpha                            0.05
+                               Error Degrees of Freedom            8
+                               Error Mean Square            1.703333
+                               Critical Value of t           2.30600
+                               Least Significant Difference   1.7376
+                    Means with the same letter are not significantly different.
+                         t Grouping          Mean      N    treat
+A        6.1333      6    c
+                                  A        5.1500      6    b
+                                  B        3.0667      6    a 
+
+Ans.: 藥物A與B較佳
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+title 'ch9 q2';
+data cod;
+input period $ child $ treat $ obs @@;
+cards;
+1 1 b 08 2 1 a 05 1 2 a 10 2 2 b 08 1 3 a 12 2 3 b 10
+1 4 b 08 2 4 a 03 1 5 a 09 2 5 b 12 1 6 b 13 2 6 a 13
+1 7 a 08 2 7 b 10 1 8 a 05 2 8 b 04 1 9 b 12 2 9 a 10
+1 10 b 11 2 10 a 06;
+proc glm;
+class period child treat;
+model obs=period child  treat;
+means treat/lsd;
+means treat/duncan;
+                                               ch9 q2              13:54 Wednesday, May 12, 2009  17
+                                                                                                    
+                                         The GLM Procedure                                                                                                                                              
+                                      Class Level Information                                       
+                                                                                                    
+                           Class         Levels    Values                                                                                                                                               
+                           period             2    1 2                                                                                                                                                  
+                           child             10    1 10 2 3 4 5 6 7 8 9                                                                                                                                 
+                           treat              2    a b                                                                                                                                              
+                                                                                                   
+                                    Number of observations    20                                    
+                                               ch9 q2              13:54 Wednesday, May 12, 2009  18
+                                                                                                    
+                                         The GLM Procedure                                          
+                                                                                                    
+Dependent Variable: obs                                                                             
+                                                                                                    
+                                                Sum of                                              
+        Source                      DF         Squares     Mean Square    F Value    Pr > F         
+                                                                                                    
+        Model                       11     152.5500000      13.8681818       5.55    0.0111         
+                                                                                                    
+        Error                        8      20.0000000       2.5000000                              
+                                                                                                    
+        Corrected Total             19     172.5500000                                              
+                                                                                                    
+                                                                                                    
+                         R-Square     Coeff Var      Root MSE      obs Mean                         
+                                                                                                    
+                         0.884092      17.86598      1.581139      8.850000                         
+                                                                                                    
+                                                                                                    
+        Source                      DF       Type I SS     Mean Square    F Value    Pr > F         
+                                                                                                    
+        period                       1      11.2500000      11.2500000       4.50    0.0667         
+        child                        9     130.0500000      14.4500000       5.78    0.0107         
+        treat                        1      11.2500000      11.2500000       4.50    0.0667         
+                                                                                                    
+                                                                                                    
+        Source                      DF     Type III SS     Mean Square    F Value    Pr > F         
+                                                                                                    
+        period                       1      11.2500000      11.2500000       4.50    0.0667         
+        child                        9     130.0500000      14.4500000       5.78    0.0107         
+        treat                        1      11.2500000      11.2500000       4.50    0.0667         
+                                               ch9 q2              13:54 Wednesday, May 12, 2009  19
+                                                                                                    
+                                         The GLM Procedure                                          
+                                                                                                    
+                                       t Tests (LSD) for obs                                        
+                                                                                                    
+ NOTE: This test controls the Type I comparisonwise error rate, not the experimentwise error rate.  
+                                                                                                    
+                                                                                                    
+                               Alpha                            0.05                                
+                               Error Degrees of Freedom            8                                
+                               Error Mean Square                 2.5                                
+                               Critical Value of t           2.30600                                
+                               Least Significant Difference   1.6306                                
+                                                                                                    
+                                                                                                    
+                    Means with the same letter are not significantly different.                     
+                                                                                                    
+                                                                                                    
+                         t Grouping          Mean      N    treat                                   
+                                                                                                    
+                                  A        9.6000     10    b                                       
+                                  A                                                                 
+                                  A        8.1000     10    a                                       
+                                               ch9 q2              13:54 Wednesday, May 12, 2009  20
+                                                                                                    
+                                         The GLM Procedure                                          
+                                                                                                    
+                                Duncan's Multiple Range Test for obs                                
+                                                                                                    NOTE: This test controls the Type I comparisonwise error rate, not the experimentwise error rate.  
+                                                                                                                                                                                                        
+                                 Alpha                        0.05                                  
+                                 Error Degrees of Freedom        8                                  
+                                 Error Mean Square             2.5                                  
+                                                   
+                                     Number of Means          2                                     
+                                     Critical Range       1.631                                     
+                    Means with the same letter are not significantly different.                     
+                    Duncan Grouping          Mean      N    treat                                   
+                                                                                                    
+                                  A        9.6000     10    b                                       
+                                  A        8.1000     10    a                                       
+Ans.:沒有差別
+
+
+
+
+
+
+
+
+
+title 'ch9 q3';
+data rlsd;
+
+input loc $ row $ col $ treat $ obs @@;
+cards;
+1 1 1 b 5.5 1 2 1 a 2.1 1 3 1 c 6.6 2 4 1 c 8.1 2 5 1 b 6.4 2 6 1 a 2.9
+1 1 2 c 3.6 1 2 2 b 6.0 1 3 2 a 1.8 2 4 2 a 3.9 2 5 2 c 7.5 2 6 2 b 3.2
+1 1 3 a 2.3 1 2 3 c 4.2 1 3 3 b 4.8 2 4 3 b 5.0 2 5 3 a 5.4 2 6 3 c 6.8
+;
+proc glm;
+class loc row col treat;
+model obs=loc row col treat;
+means treat/lsd;
+means treat/duncan;
+
+                                               ch9 q3              21:44 Wednesday, May 12, 2009  29
+
+                                        The ANOVA Procedure
+
+                                      Class Level Information
+
+                                Class         Levels    Values
+
+                                loc                2    1 2
+
+                                row                6    1 2 3 4 5 6
+
+                                col                3    1 2 3
+
+                                treat              3    a b c
+
+
+                                    Number of observations    18
+ 
+
+                                               ch9 q3              21:44 Wednesday, May 12, 2009  30
+
+                                        The ANOVA Procedure
+
+Dependent Variable: obs
+
+                                                Sum of
+        Source                      DF         Squares     Mean Square    F Value    Pr > F
+
+        Model                       11     48.80833333      4.43712121       2.08    0.1909
+
+        Error                        6     12.81666667      2.13611111
+
+        Corrected Total             17     61.62500000
+
+
+                         R-Square     Coeff Var      Root MSE      obs Mean
+
+                         0.792022      30.55493      1.461544      4.783333
+
+
+        Source                      DF        Anova SS     Mean Square    F Value    Pr > F
+
+        loc                          1      8.40500000      8.40500000       3.93    0.0945
+        row(loc)                     4      7.54666667      1.88666667       0.88    0.5265
+        col(loc)                     4      3.43333333      0.85833333       0.40    0.8016
+        treat                        2     29.42333333     14.71166667       6.89    0.0279
+ 
+
+                                               ch9 q3              21:44 Wednesday, May 12, 2009  31
+
+                                        The ANOVA Procedure
+
+                                       t Tests (LSD) for obs
+
+ NOTE: This test controls the Type I comparisonwise error rate, not the experimentwise error rate.
+
+
+                               Alpha                            0.05
+                               Error Degrees of Freedom            6
+                               Error Mean Square            2.136111
+                               Critical Value of t           2.44691
+                               Least Significant Difference   2.0648
+
+
+                    Means with the same letter are not significantly different.
+
+
+                         t Grouping          Mean      N    treat
+
+                                  A        6.1333      6    c
+                                  A
+                                  A        5.1500      6    b
+
+                                  B        3.0667      6    a
+ 
+
+                                               ch9 q3              21:44 Wednesday, May 12, 2009  32
+
+                                        The ANOVA Procedure
+
+                                Duncan's Multiple Range Test for obs
+
+ NOTE: This test controls the Type I comparisonwise error rate, not the experimentwise error rate.
+
+
+                                 Alpha                        0.05
+                                 Error Degrees of Freedom        6
+                                 Error Mean Square        2.136111
+
+
+                               Number of Means          2          3
+                               Critical Range       2.065      2.140
+
+
+                    Means with the same letter are not significantly different.
+
+
+                    Duncan Grouping          Mean      N    treat
+
+                                  A        6.1333      6    c                                  
+                                  A        5.1500      6    b
+                                  B        3.0667      6    a 
+Cross over design 
+DF = 8
+Least Significant Difference = 1.7376
+Repeat Latin squares design 
+DF = 6 
+Critical Range       2.065      2.140
+
+Ans.: Cross over design較佳
