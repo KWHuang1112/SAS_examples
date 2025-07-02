@@ -1,0 +1,211 @@
+題目：
+設今有三個國小，每校抽四年級兩班，每班抽3個學生進行國與成績測驗，比較三校四年級各班之國與成績是否有差別。
+title'q12 q3';
+data nest2;
+input school $ class $ obs @@;
+cards;
+a 1 55 a 1 70 a 1 85 a 2 89 a 2 62 a 2 73
+b 1 35 b 1 78 b 1 90 b 2 88 b 2 74 b 2 66
+c 1 50 c 1 75 c 1 66 c 2 70 c 2 82 c 2 46
+;
+proc glm;
+class school class;
+model obs = school class(school);
+means school/duncan;
+lsmeans class(school)/stderr tdiff;                                               q12 q3              21:58 Wednesday, May 26, 2009   9
+
+                                         The GLM Procedure
+
+                                      Class Level Information
+
+                                   Class         Levels    Values
+
+                                   school             3    a b c
+
+                                   class              2    1 2
+                                    Number of observations    18
+
+                                         The GLM Procedure
+
+Dependent Variable: obs
+
+                                                Sum of
+        Source                      DF         Squares     Mean Square    F Value    Pr > F
+
+        Model                        5      356.000000       71.200000       0.23    0.9426
+
+        Error                       12     3732.000000      311.000000
+
+        Corrected Total             17     4088.000000
+由於Pr > F，因此這三所學校及兩個班級的學生成績沒有差別
+
+題目：設今有A、B兩種甘藷品種，利用兩部機器製造澱粉，每部機器分別由三個人操作，每人重複兩次，是比較品種間，機器型別與操作人員不同時所得澱粉量是否有差別。
+title'q12 q4';
+data nest3;
+input breed $ mechine $ operator $ obs @@;
+cards;
+a m1 1 230 a m1 1 250 a m1 2 200 a m1 2 189 a m1 3 210 a m1 3 220
+a m2 1 180 a m2 1 159 a m2 2 190 a m2 2 210 a m2 3 188 a m2 3 210
+b m1 1 265 b m1 1 250 b m1 2 205 b m1 2 189 b m1 3 290 b m1 3 270
+b m2 1 243 b m2 1 228 b m2 2 208 b m2 2 195 b m2 3 190 b m2 3 215
+;
+proc glm;
+class breed mechine operator;
+model obs = breed mechine(breed) operator(breed mechine);
+test h=breed e=mechine(breed);
+test h=mechine(breed) e=operator(breed mechine);
+means brees/duncan e=mechine(breed);
+lsmeans mechine(breed)/stderr tdiff e=operator(breed mechine);
+lsmeans operator(breed mechine)/stderr tdiff;
+
+                                               q12 q4              21:58 Wednesday, May 26, 2009  17
+
+                                         The GLM Procedure
+
+                                      Class Level Information
+
+                                   Class         Levels    Values
+
+                                   breed              2    a b
+
+                                   mechine            2    m1 m2
+
+                                   operator           3    1 2 3
+
+
+                                    Number of observations    24
+
+                                         The GLM Procedure
+
+Dependent Variable: obs
+
+                                                Sum of
+        Source                      DF         Squares     Mean Square    F Value    Pr > F
+
+        Model                       11     21397.00000      1945.18182      12.14    <.0001
+
+        Error                       12      1923.00000       160.25000
+
+        Corrected Total             23     23320.00000
+由於Pr極小於F值，代表品種、機械、操作人員間有極顯著差異
+                         R-Square     Coeff Var      Root MSE      obs Mean
+
+                         0.917539      5.860643      12.65899      216.0000
+
+
+        Source                      DF       Type I SS     Mean Square    F Value    Pr > F
+
+        breed                        1      4056.00000      4056.00000      25.31    0.0003
+        mechine(breed)               2      5195.33333      2597.66667      16.21    0.0004
+        operat(breed*mechin)         8     12145.66667      1518.20833       9.47    0.0004
+
+
+        Source                      DF     Type III SS     Mean Square    F Value    Pr > F
+
+        breed                        1      4056.00000      4056.00000      25.31    0.0003
+        mechine(breed)               2      5195.33333      2597.66667      16.21    0.0004
+        operat(breed*mechin)         8     12145.66667      1518.20833       9.47    0.0004
+
+
+           Tests of Hypotheses Using the Type III MS for mechine(breed) as an Error Term
+
+        Source                      DF     Type III SS     Mean Square    F Value    Pr > F
+
+        breed                        1     4056.000000     4056.000000       1.56    0.3379
+
+
+        Tests of Hypotheses Using the Type III MS for operat(breed*mechin) as an Error Term
+
+        Source                      DF     Type III SS     Mean Square    F Value    Pr > F
+
+        mechine(breed)               2     5195.333333     2597.666667       1.71    0.2407
+
+由Type III MS之表格顯示，品種、機械、操作人員都會造成收獲量的不同。
+
+
+題目：設有A1、A2、A3三種職務，今欲調查其葉片部位不同，所含鈣質含量有無差異，是測試品種間及各品種葉片部位間鈣含量有無區別。
+title'q12 q5';
+data nest2;
+input strain $ location $ obs @@;
+cards;
+a 1 2.5 a 1 2.9 a 2 3.2 a 2 3.4 a 3 2.9 a 3 2.8
+b 1 2.4 b 1 2.5 b 2 1.8 b 2 1.9 b 3 2.2 b 3 2.0 
+c 1 2.8 c 1 2.6 c 2 3.7 c 2 2.8 c 3 2.5 c 3 2.4
+;
+proc glm;
+class strain location;
+model obs = strain location(strain);
+means strain/duncan;
+lsmeans location(strain)/stderr tdiff;
+                                               q12 q5              21:58 Wednesday, May 26, 2009  26
+
+                                         The GLM Procedure
+
+                                      Class Level Information
+
+                                   Class         Levels    Values
+
+                                   strain             3    a b c
+
+                                   location           3    1 2 3
+
+
+                                    Number of observations    18
+
+                                         The GLM Procedure
+
+Dependent Variable: obs
+
+                                                Sum of
+        Source                      DF         Squares     Mean Square    F Value    Pr > F
+
+        Model                        8      3.69111111      0.46138889       7.35    0.0036
+
+        Error                        9      0.56500000      0.06277778
+
+        Corrected Total             17      4.25611111
+由於Pr > F，代表品系及葉片部位會造成鈣含量的差異
+
+                         R-Square     Coeff Var      Root MSE      obs Mean
+
+                         0.867250      9.534860      0.250555      2.627778
+
+
+        Source                      DF       Type I SS     Mean Square    F Value    Pr > F
+
+        strain                       2      2.26777778      1.13388889      18.06    0.0007
+        location(strain)             6      1.42333333      0.23722222       3.78    0.0367
+
+
+        Source                      DF     Type III SS     Mean Square    F Value    Pr > F
+
+        strain                       2      2.26777778      1.13388889      18.06    0.0007
+        location(strain)             6      1.42333333      0.23722222       3.78    0.0367
+上表顯示品系及葉子的部位會影響鈣含量的多寡
+                                         The GLM Procedure
+
+                                Duncan's Multiple Range Test for obs
+
+ NOTE: This test controls the Type I comparisonwise error rate, not the experimentwise error rate.
+
+
+                                 Alpha                        0.05
+                                 Error Degrees of Freedom        9
+                                 Error Mean Square        0.062778
+
+
+                               Number of Means          2          3
+                               Critical Range       .3272      .3416
+
+
+                     Means with the same letter are not significantly different.
+
+
+                    Duncan Grouping          Mean      N    strain
+
+                                  A        2.9500      6    a
+                                  
+                                  A        2.8000      6    c
+
+                                  B        2.1333      6    b
+A及C品系鈣含量較多
