@@ -1,0 +1,202 @@
+Q3今有A、B、C三牧草品種，以完全隨機設計(CRD)重覆四次，今欲比較高草時間(次數)不同，收草量是否有差異，割草共四次，所得草產量如下，是比較品種間，割草時間對草產量有無差異，有品種與割草時間有無交感，若有，如何解釋交感的意義。
+
+title'ch14 q3';
+data spdc;
+input bre $ gat$ rep $ obs @@;
+cards;
+a d1 1 12.2 a d1 2 13.5 a d1 3 14.1 a d1 4 10.8
+a d2 1 10.5 a d2 2 11.8 a d2 3 14.5 a d2 4 10.0
+a d3 1 08.5 a d3 2 10.5 a d3 3 09.4 a d3 4 12.0
+a d4 1 0.92 a d4 2 08.2 a d4 3 10.2 a d4 4 11.0
+b d1 1 15.4 b d1 2 13.6 b d1 3 15.8 b d1 4 16.7
+b d2 1 16.1 b d2 2 12.5 b d2 3 14.8 b d2 4 15.3
+b d3 1 12.4 b d3 2 13.2 b d3 3 11.7 b d3 4 12.8
+b d4 1 10.9 b d4 2 12.1 b d4 3 10.4 b d4 4 10.9
+c d1 1 08.8 c d1 2 09.0 c d1 3 12.7 c d1 4 10.7
+c d2 1 10.2 c d2 2 10.5 c d2 3 09.7 c d2 4 12.1
+c d3 1 08.5 c d3 2 07.4 c d3 3 07.0 c d3 4 06.8
+c d4 1 06.0 c d4 2 07.4 c d4 3 06.6 c d4 4 08.2
+;
+proc glm;
+class bre  gat rep;
+model obs= bre rep*bre gat bre*gat;
+test h=bre e=rep*bre;
+means bre/duncan e=rep*bre;
+means b/duncan;
+lsmeans bre*gat/stderr tdiff;
+
+                                                Sum of
+        Source                      DF         Squares     Mean Square    F Value    Pr > F
+        Model                       20     359.9886667      17.9994333       6.08    <.0001
+        Error                       27      79.9356000       2.9605778
+        Corrected Total             47     439.9242667
+F value極大代表有顯著差異
+                         R-Square     Coeff Var      Root MSE      obs Mean
+                         0.818297      15.75190      1.720633      10.92333
+              Tests of Hypotheses Using the Type III MS for bre*rep as an Error Term
+
+        Source                      DF     Type III SS     Mean Square    F Value    Pr > F
+        bre                          2     170.6812667      85.3406333      18.54    0.0006
+                                Duncan's Multiple Range Test for obs
+ NOTE: This test controls the Type I comparisonwise error rate, not the experimentwise error rate.
+                                 Alpha                        0.05
+                                 Error Degrees of Freedom        9
+                                 Error Mean Square        4.603356
+                               Number of Means          2          3
+                               Critical Range       1.716      1.791
+                    Means with the same letter are not significantly different.
+                     Duncan Grouping          Mean      N    bre
+                                   A       13.4125     16    b
+                                   B       10.5075     16    a
+                                   B        8.8500     16    c
+
+                                         The GLM Procedure
+                                        Least Squares Means
+
+                                                   Standard                  LSMEAN
+                 bre    gat      obs LSMEAN           Error    Pr > |t|      Number
+
+                 a      d1       12.6500000       0.8603165      <.0001           1
+                 a      d2       11.7000000       0.8603165      <.0001           2
+                 a      d3       10.1000000       0.8603165      <.0001           3
+                 a      d4        7.5800000       0.8603165      <.0001           4
+                 b      d1       15.3750000       0.8603165      <.0001           5
+                 b      d2       14.6750000       0.8603165      <.0001           6
+                 b      d3       12.5250000       0.8603165      <.0001           7
+                 b      d4       11.0750000       0.8603165      <.0001           8
+                 c      d1       10.3000000       0.8603165      <.0001           9
+                 c      d2       10.6250000       0.8603165      <.0001          10
+                 c      d3        7.4250000       0.8603165      <.0001          11
+                 c      d4        7.0500000       0.8603165      <.0001          12
+
+Ans.:時間、品種B與A、C間有顯著差異，我認為此差異可能是由於品種生長速率的差異，或是草的密度是否影響生長，例如：割草頻度高，陽光照射充足、草密度低，生長較快。
+			1	2	3
+S1	T1	F	1.8	1.9	1.6
+		M	1.9	1.6	1.4
+	T2	F	2.6	2.7	2.4
+		M	2.1	2.2	2.0
+	T3	F	3.2	3.0	2.7
+		M	3.0	3.4	2.8
+S2	T1	F	2.4	1.9	2.1
+		M	2.2	2.0	1.8
+	T2	F	1.9	2.3	2.4
+		M	2.2	2.6	2.7
+	T3	F	3.1	3.2	2.8
+		M	3.5	3.2	3.4
+Q5.設今欲進行某於類雌雄呼吸率(respiratory rate ml%/hr)有無區別，在三種溫度下，以2品種進行試驗，採用CRD設計重複三次，以魚種類(S1、S2)為大區，溫度(T1、T2、T3)為中區，雌雄(F、M)為小區，所得呼吸率如下，是列變方分析表之變因，自由度及F值顯著性測驗。
+
+
+
+
+
+title'ch14 q5';
+data spdc;
+input spe $ tem$ gen $ rep $ obs @@;
+cards;
+s1 t1 f 1 1.8 s1 t1 f 2 1.9 s1 t1 f 3 1.6
+s1 t1 m 1 1.9 s1 t1 m 2 1.6 s1 t1 m 3 1.4
+s1 t2 f 1 2.6 s1 t2 f 2 2.7 s1 t2 f 3 2.4
+s1 t2 m 1 2.1 s1 t2 m 2 2.2 s1 t2 m 3 2.0
+s1 t3 f 1 3.2 s1 t3 f 2 3.0 s1 t3 f 3 2.8
+s1 t3 m 1 3.0 s1 t3 m 2 3.4 s1 t3 m 3 2.8
+s2 t1 f 1 2.4 s2 t1 f 2 1.9 s2 t1 f 3 2.1
+s2 t1 m 1 2.2 s2 t1 m 2 2.0 s2 t1 m 3 1.8
+s2 t2 f 1 1.9 s2 t2 f 2 2.3 s2 t2 f 3 2.4
+s2 t2 m 1 2.2 s2 t2 m 2 2.6 s2 t2 m 3 2.7
+s2 t3 f 1 3.1 s2 t3 f 2 3.2 s2 t3 f 3 2.8
+s2 t3 m 1 3.5 s2 t3 m 2 3.2 s2 t3 m 3 3.4
+;
+proc glm;
+class spe tem gen rep;
+model obs = rep spe rep*spe tem spe*tem rep*spe*tem gen spe*gen tem*gen spe*tem*gen;
+test h=spe rep e=rep*spe;
+test h=tem  spe*tem e=rep*spe*tem;
+means a/duncan e=rep*spe;
+means b/duncan e=rep*spe*tem;
+means c/duncan;
+Ans.：變方分析表如下
+Source
+Model
+Error
+Corrected Total	DF
+23
+12
+35	Sum of Squares
+11.35305556
+0.27666667
+11.62972222	Mean Square
+0.49361111
+0.02305556	F Value
+21.41
+	Pr > F
+<.0001
+                                                 
+             
+
+
+
+根據上表F value顯示有極顯著差異極顯著，代表魚種、溫度、雌雄、呼吸率如皆有差異
+Q6.問題(5)若以2X3X2複因子設計試驗進行辯方分析，結果與前題有何不同。
+title'ch14 q6';
+data spdc;
+input spe $ tem$ gen $ rep $ obs @@;
+cards;
+s1 t1 f 1 1.8 s1 t1 f 2 1.9 s1 t1 f 3 1.6
+s1 t1 m 1 1.9 s1 t1 m 2 1.6 s1 t1 m 3 1.4
+s1 t2 f 1 2.6 s1 t2 f 2 2.7 s1 t2 f 3 2.4
+s1 t2 m 1 2.1 s1 t2 m 2 2.2 s1 t2 m 3 2.0
+s1 t3 f 1 3.2 s1 t3 f 2 3.0 s1 t3 f 3 2.8
+s1 t3 m 1 3.0 s1 t3 m 2 3.4 s1 t3 m 3 2.8
+s2 t1 f 1 2.4 s2 t1 f 2 1.9 s2 t1 f 3 2.1
+s2 t1 m 1 2.2 s2 t1 m 2 2.0 s2 t1 m 3 1.8
+s2 t2 f 1 1.9 s2 t2 f 2 2.3 s2 t2 f 3 2.4
+s2 t2 m 1 2.2 s2 t2 m 2 2.6 s2 t2 m 3 2.7
+s2 t3 f 1 3.1 s2 t3 f 2 3.2 s2 t3 f 3 2.8
+s2 t3 m 1 3.5 s2 t3 m 2 3.2 s2 t3 m 3 3.4
+;
+proc glm;
+class spe tem gen rep;
+model obs = spe|tem|gen/ss4;
+means spe tem gen/duncan;
+lsmeans spe*tem*gen/stderr tdiff;
+Ans.:比較複因子設計與裂區設計
+複因子設計試驗結果
+Source
+Model
+Error
+Corrected Total	DF
+11
+24
+35	Sum of Squares
+10.50305556
+1.12666667
+11.62972222	Mean Square
+0.95482323
+0.04694444
+	F Value
+20.34
+
+	Pr > F
+<.0001
+
+
+裂區設計結果
+Source
+Model
+Error
+Corrected Total	DF
+23
+12
+35	Sum of Squares
+11.35305556
+0.27666667
+11.62972222	Mean Square
+0.49361111
+0.02305556	F Value
+21.41
+	Pr > F
+<.0001
+
+
+
+
