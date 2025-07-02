@@ -1,0 +1,165 @@
+設下列資料為老鼠在不同時間及飼養維他命B1不同用量時所得之增重結果，問(1)老鼠在不同時間餵以B1是否有不同之反應，(2)B1用量不同對其增加重量有無效果，(3)不同時間餵以不同量之B1，是否得到不同的效果，(4)若時間與B1有交感作用，以何時何量最為適當。
+title'ch 11 q5';
+data factb;
+input time $ vitb $ block $ obs @@;
+cards;
+T1 B1 1 2.5 T1 B1 2 2.4 T2 B1 1 1.9 T2 B1 2 2.2 
+T1 B1 3 2.6 T1 B1 4 2.7 T2 B1 3 2.2 T2 B1 4 2.0
+T1 B2 1 3.8 T1 B2 2 4.2 T2 B2 1 2.6 T2 B2 2 3.5
+T1 B2 3 4.5 T1 B2 4 4.0 T2 B2 3 3.0 T2 B2 4 2.8 
+T1 B3 1 5.5 T1 B3 2 4.8 T2 B3 1 2.6 T2 B3 2 3.6
+T1 B3 3 6.0 T1 B3 4 5.0 T2 B3 3 3.9 T2 B3 4 4.2
+;
+proc glm;
+class time vitb Block;
+model obs=block time|vitb/ss1;
+means time vitb /duncan;
+lsmeans time*vitb/stderr tdiff;
+
+                                              ch 11 q5             22:00 Wednesday, May 19, 2009   1
+
+                                         The GLM Procedure
+
+                                      Class Level Information
+
+                                 Class         Levels    Values
+
+                                 time               2    T1 T2
+
+                                 vitb               3    B1 B2 B3
+
+                                 block              4    1 2 3 4
+
+
+                                    Number of observations    24
+
+
+
+
+                                              ch 11 q5             22:00 Wednesday, May 19, 2009   2
+
+                                         The GLM Procedure
+
+Dependent Variable: obs
+
+                                                Sum of
+        Source                      DF         Squares     Mean Square    F Value    Pr > F
+
+        Model                        8     28.56000000      3.57000000      23.95    <.0001
+
+        Error                       15      2.23625000      0.14908333
+
+        Corrected Total             23     30.79625000
+
+由於obs值的F value > Pr ，因此有差異存在
+
+                         R-Square     Coeff Var      Root MSE      obs Mean
+
+                         0.927386      11.23238      0.386113      3.437500
+
+
+        Source                      DF       Type I SS     Mean Square    F Value    Pr > F
+
+        block                        3      0.91125000      0.30375000       2.04    0.1518
+        time                         1      7.59375000      7.59375000      50.94    <.0001
+        vitb                         2     18.42750000      9.21375000      61.80    <.0001
+        time*vitb                    2      1.62750000      0.81375000       5.46    0.0166
+根據上表結果，block、time、vitb濃度以及時間與濃度的交互反應的F value顯示，都有顯著差異，代表時間與B1用量有交互作用。
+ 
+
+                                              ch 11 q5             22:00 Wednesday, May 19, 2009   3
+
+                                         The GLM Procedure
+
+                                Duncan's Multiple Range Test for obs
+
+ NOTE: This test controls the Type I comparisonwise error rate, not the experimentwise error rate.
+
+
+                                 Alpha                        0.05
+                                 Error Degrees of Freedom       15
+                                 Error Mean Square        0.149083
+
+
+                                     Number of Means          2
+                                     Critical Range       .3360
+
+
+                     Means with the same letter are not significantly different.
+
+
+                     Duncan Grouping          Mean      N    time
+
+                                   A        4.0000     12    T1
+
+                                   B        2.8750     12    T2
+Ans.1: 根據上表結果顯示，餵食時間會影響增重效果(T1優於T2)。
+ 
+
+                                              ch 11 q5             22:00 Wednesday, May 19, 2009   4
+
+                                         The GLM Procedure
+
+                                Duncan's Multiple Range Test for obs
+
+ NOTE: This test controls the Type I comparisonwise error rate, not the experimentwise error rate.
+
+
+                                 Alpha                        0.05
+                                 Error Degrees of Freedom       15
+                                 Error Mean Square        0.149083
+
+
+                               Number of Means          2          3
+                               Critical Range       .4115      .4314
+
+
+                     Means with the same letter are not significantly different.
+
+
+                     Duncan Grouping          Mean      N    vitb
+
+                                   A        4.4500      8    B3
+
+                                   B        3.5500      8    B2
+
+                                   C        2.3125      8    B1
+Ans.2: 根據上表結果顯示，餵食維他命的濃度會影響增重效果(10ug優於20ug及30ug)。
+
+ 
+
+                                              ch 11 q5             22:00 Wednesday, May 19, 2009   5
+
+                                         The GLM Procedure
+                                        Least Squares Means
+
+                                                    Standard                  LSMEAN
+                time    vitb      obs LSMEAN           Error    Pr > |t|      Number
+
+                T1      B1        2.55000000      0.19305655      <.0001           1
+                T1      B2        4.12500000      0.19305655      <.0001           2
+                T1      B3        5.32500000      0.19305655      <.0001           3
+                T2      B1        2.07500000      0.19305655      <.0001           4
+                T2      B2        2.97500000      0.19305655      <.0001           5
+                T2      B3        3.57500000      0.19305655      <.0001           6
+Ans.4: 根據結果，T1與B3的結果最佳(LSMEAN=5.32500000)
+
+                              Least Squares Means for Effect time*vitb
+                              t for H0: LSMean(i)=LSMean(j) / Pr > |t|
+
+                                      Dependent Variable: obs
+
+      i/j              1             2             3             4             5             6
+
+         1                    -5.76874       -10.164      1.739779      -1.55664      -3.75426
+                                <.0001        <.0001        0.1024        0.1404        0.0019
+         2      5.768741                    -4.39523      7.508519      4.212096      2.014481
+                  <.0001                      0.0005        <.0001        0.0008        0.0623
+         3      10.16397      4.395231                    11.90375      8.607327      6.409712
+                  <.0001        0.0005                      <.0001        <.0001        <.0001
+         4      -1.73978      -7.50852      -11.9038                    -3.29642      -5.49404
+                  0.1024        <.0001        <.0001                      0.0049        <.0001
+         5      1.556644       -4.2121      -8.60733      3.296423                    -2.19762
+                  0.1404        0.0008        <.0001        0.0049                      0.0441
+         6       3.75426      -2.01448      -6.40971      5.494039      2.197615
+                  0.0019        0.0623        <.0001        <.0001        0.0441
